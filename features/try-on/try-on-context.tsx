@@ -12,6 +12,7 @@ import React, {
 
 import { useLocale, useTranslations } from "next-intl";
 
+import { compressImageForTryOnUpload } from "./compress-image-client";
 import { categoryLabel } from "@/lib/try-on/category-labels";
 import { appendHistory } from "@/lib/try-on/history-storage";
 import type { GarmentCategory, TryOnMode, TryOnPhase } from "@/lib/try-on/types";
@@ -156,19 +157,29 @@ export function TryOnProvider({ children }: { children: React.ReactNode }) {
 
       const body = new FormData();
 
-      body.append("garment", garmentFile);
-      body.append("locale", locale);
-
       try {
+        const garmentForApi = await compressImageForTryOnUpload(garmentFile);
+        body.append("garment", garmentForApi);
+        body.append("locale", locale);
+
         const res = await fetch("/api/detect-category", {
           method: "POST",
           body,
         });
-        const json = (await res.json()) as {
+        const raw = await res.text();
+        if (res.status === 413) {
+          throw new Error(t("payloadTooLarge"));
+        }
+        let json: {
           category?: GarmentCategory;
           source?: DetectionSource;
           error?: string;
         };
+        try {
+          json = JSON.parse(raw) as typeof json;
+        } catch {
+          throw new Error(t("invalidServerResponse"));
+        }
 
         if (garmentVersionRef.current !== token) {
           return;
@@ -204,7 +215,7 @@ export function TryOnProvider({ children }: { children: React.ReactNode }) {
     };
 
     void run();
-  }, [garmentFile, locale]);
+  }, [garmentFile, locale, t]);
 
   const generate = useCallback(async () => {
     if (!personFile || !garmentFile || !category) {
@@ -218,21 +229,34 @@ export function TryOnProvider({ children }: { children: React.ReactNode }) {
 
     const body = new FormData();
 
-    body.append("person", personFile);
-    body.append("garment", garmentFile);
-    body.append("category", category);
-
     try {
+      const [personForApi, garmentForApi] = await Promise.all([
+        compressImageForTryOnUpload(personFile),
+        compressImageForTryOnUpload(garmentFile),
+      ]);
+      body.append("person", personForApi);
+      body.append("garment", garmentForApi);
+      body.append("category", category);
+
       const res = await fetch("/api/try-on", {
         method: "POST",
         body,
       });
-      const json = (await res.json()) as {
+      const raw = await res.text();
+      if (res.status === 413) {
+        throw new Error(t("payloadTooLarge"));
+      }
+      let json: {
         imageBase64?: string;
         mimeType?: string;
         mode?: "doubao" | "placeholder";
         error?: string;
       };
+      try {
+        json = JSON.parse(raw) as typeof json;
+      } catch {
+        throw new Error(t("invalidServerResponse"));
+      }
 
       if (!res.ok) {
         throw new Error(json.error ?? "Try-on failed.");

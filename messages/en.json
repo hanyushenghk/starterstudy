@@ -454,11 +454,11 @@
       "yourPhoto": "Your photo",
       "yourPhotoDesc": "Clear lighting; face and outfit region visible.",
       "personLabel": "Portrait file",
-      "personDesc": "JPEG, PNG, or WebP up to 15MB.",
+      "personDesc": "JPEG, PNG, or WebP. Very large files are resized in your browser before upload (serverless body limits).",
       "clothingTitle": "Garment",
       "clothingDesc": "Use a clean product-style image when possible.",
       "garmentLabel": "Garment file",
-      "garmentDesc": "JPEG, PNG, or WebP up to 15MB.",
+      "garmentDesc": "JPEG, PNG, or WebP. Very large files are resized in your browser before upload (serverless body limits).",
       "detectedCategory": "Detected category",
       "waitingCategory": "Waiting for garment…",
       "visionModel": "vision model",
@@ -479,7 +479,9 @@
       "dropReplace": "Replace",
       "dropUpload": "Upload",
       "dropFormats": "JPEG, PNG, or WebP",
-      "needBothForGenerate": "Add both images and wait for category detection before generating."
+      "needBothForGenerate": "Add both images and wait for category detection before generating.",
+      "payloadTooLarge": "Upload was rejected because the request body exceeded the host limit (common on Vercel: ~4.5MB). Try smaller photos or wait a moment and retry—the app compresses large images in your browser before upload.",
+      "invalidServerResponse": "The server returned a non-JSON response. If you are on a strict host, the request may have been blocked before it reached the app."
     },
     "tryOnHistory": {
       "sectionLabel": "History",

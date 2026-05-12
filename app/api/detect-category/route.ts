@@ -6,7 +6,8 @@ import { detectGarmentCategory } from "@/lib/try-on/detect-garment";
 
 export const runtime = "nodejs";
 
-const MAX_BYTES = 12 * 1024 * 1024;
+/** Keeps single-file FormData under typical serverless body limits. */
+const MAX_BYTES = 2 * 1024 * 1024;
 
 const allowedMime = new Set(["image/jpeg", "image/png", "image/webp"]);
 
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(await file.arrayBuffer());
 
     if (buffer.byteLength > MAX_BYTES) {
-      return NextResponse.json({ error: "Image too large (max 12MB)." }, { status: 400 });
+      return NextResponse.json({ error: "Image too large (max 2MB on this host)." }, { status: 400 });
     }
 
     const { category, source } = await detectGarmentCategory({

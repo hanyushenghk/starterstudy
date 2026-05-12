@@ -454,11 +454,11 @@
       "yourPhoto": "你的人像",
       "yourPhotoDesc": "光线清晰，尽量露出人物与着装区域。",
       "personLabel": "人像文件",
-      "personDesc": "JPEG、PNG 或 WebP，单张最大 15MB。",
+      "personDesc": "JPEG、PNG 或 WebP。超大文件会在上传前于浏览器内缩放（符合无服务器请求体积限制）。",
       "clothingTitle": "服装图",
       "clothingDesc": "尽量使用干净的商品图。",
       "garmentLabel": "服装文件",
-      "garmentDesc": "JPEG、PNG 或 WebP，单张最大 15MB。",
+      "garmentDesc": "JPEG、PNG 或 WebP。超大文件会在上传前于浏览器内缩放（符合无服务器请求体积限制）。",
       "detectedCategory": "识别到的类别",
       "waitingCategory": "等待上传服装图…",
       "visionModel": "视觉模型",
@@ -479,7 +479,9 @@
       "dropReplace": "更换",
       "dropUpload": "上传",
       "dropFormats": "JPEG、PNG 或 WebP",
-      "needBothForGenerate": "请先上传两张图并等待服装类别识别完成后再生成。"
+      "needBothForGenerate": "请先上传两张图并等待服装类别识别完成后再生成。",
+      "payloadTooLarge": "上传被拒绝：请求体积超过了托管平台限制（例如 Vercel Serverless 约 4.5MB）。请换用更小的照片，或稍后重试——应用会在上传前于浏览器内压缩大图。",
+      "invalidServerResponse": "服务器返回了非 JSON 内容。若托管平台较严格，请求可能在到达应用前就被拦截。"
     },
     "tryOnHistory": {
       "sectionLabel": "历史",
