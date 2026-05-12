@@ -34,6 +34,11 @@ export const marketingNavigationKeys: NavigationKeyItem[] = [
         href: "/demo/video",
         icon: "Video",
       },
+      {
+        key: "tryOn",
+        href: "/demo/try-on",
+        icon: "Shirt",
+      },
     ],
   },
   {

@@ -1,0 +1,37 @@
+---
+description: After runtime-affecting code edits, restart Next dev server without waiting for the user to ask.
+alwaysApply: true
+---
+
+# Auto-restart dev server after code changes
+
+When you **finish** a task that changes anything that affects the running Next.js app, **restart the dev server automatically** in the same turn. Do **not** wait for the user to say "restart".
+
+## When to restart
+
+Restart after edits to e.g.:
+
+- `app/**`, `lib/**`, `features/**`, `components/**`, `proxy.ts`, `next.config.*`, `i18n.*`, `messages/*.json`, `package.json`, API routes, env-related **committed** examples (not the user’s private `.env.local`).
+
+## When you may skip
+
+Skip only if the change is **purely** non-runtime (e.g. only `README.md`, only `AGENTS.md` / docs with no code, or only this rule file’s wording) **and** nothing above changed.
+
+If unsure, prefer **one** restart at the end of the turn.
+
+## How to restart (run in the tool, from repo root)
+
+1. Stop whatever is listening on port **3000** (typical Next dev port), then start dev again:
+
+```bash
+PIDS=$(lsof -tiTCP:3000 -sTCP:LISTEN 2>/dev/null); [ -n "$PIDS" ] && kill -9 $PIDS 2>/dev/null; cd "$(git rev-parse --show-toplevel 2>/dev/null || pwd)" && pnpm dev
+```
+
+2. Run that as a **background** job so the session can return; confirm logs show `Ready` and the correct port.
+
+If the repo root is not the shell cwd, `cd` to the directory that contains this project’s `package.json` before `pnpm dev`.
+
+## Notes
+
+- One restart per completed batch of edits is enough.
+- Do not print secrets; do not read or paste `.env.local` contents into the chat.

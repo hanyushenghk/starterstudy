@@ -58,6 +58,8 @@ export interface ImageGenerationRequest {
   seed?: number;
   guidance_scale?: number;
   watermark?: boolean;
+  /** Multi-image generation (e.g. Seedream try-on); omit when unused */
+  sequential_image_generation?: string;
 }
 
 export interface ImageGenerationResponse {

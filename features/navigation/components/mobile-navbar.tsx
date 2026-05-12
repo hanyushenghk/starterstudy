@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useMotionValueEvent, useScroll, motion, AnimatePresence } from "framer-motion";
 import { IoIosClose, IoIosMenu } from "react-icons/io";
 import Link from "next/link";
-import { ChevronRight, MessageSquare, Image as ImageIcon, Video } from "lucide-react";
+import { ChevronRight, MessageSquare, Image as ImageIcon, Video, Shirt } from "lucide-react";
 
 import { Button } from "@/components/button";
 import { Logo } from "@/components/Logo";
@@ -21,6 +21,7 @@ const iconMap = {
   MessageSquare: MessageSquare,
   Image: ImageIcon,
   Video: Video,
+  Shirt: Shirt,
 };
 
 export const MobileNavbar = () => {

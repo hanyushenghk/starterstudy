@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, MessageSquare, Image, Video } from "lucide-react";
+import { ChevronDown, MessageSquare, Image, Video, Shirt } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
@@ -24,6 +24,7 @@ const iconMap = {
   MessageSquare: MessageSquare,
   Image: Image,
   Video: Video,
+  Shirt: Shirt,
 };
 
 export function NavBarItemWithDropdown({

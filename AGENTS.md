@@ -267,3 +267,4 @@ Before wrapping a task, check:
 3. Did you avoid reintroducing external runtime demo assets?
 4. Did you run the right validation commands for the area you touched?
 5. Did you leave generated files and docs in sync with the codebase?
+6. If you changed runtime code (`app/`, `lib/`, `features/`, `components/`, `messages/`, etc.), did you **restart `pnpm dev`** (or kill port 3000 then start) so local picks up changes? Prefer doing this automatically—see `.cursor/rules/auto-restart-dev.mdc`.

@@ -9,6 +9,9 @@ type ImageGenerationOptions = {
   size?: 'adaptive' | '1K' | '2K' | '4K';
   inputImages?: string[];
   watermark?: boolean;
+  /** Override default image model (e.g. Seedream for virtual try-on) */
+  model?: string;
+  sequential_image_generation?: string;
 };
 
 export async function generateImage(
@@ -17,7 +20,10 @@ export async function generateImage(
 ): Promise<ImageGenerationResponse> {
   validateConfig();
 
-  const model = volcanoEngineConfig.imageModel || 'doubao-seededit-3-0-i2i-250628';
+  const model =
+    options?.model?.trim()
+    || volcanoEngineConfig.imageModel
+    || "doubao-seededit-3-0-i2i-250628";
 
   const size = options?.size || 'adaptive';
   const images = options?.inputImages?.filter(Boolean);
@@ -29,6 +35,9 @@ export async function generateImage(
     response_format: 'url',
     size,
     watermark: options?.watermark !== undefined ? options.watermark : true,
+    ...(options?.sequential_image_generation
+      ? { sequential_image_generation: options.sequential_image_generation }
+      : {}),
   };
 
   const response = await fetch(`${volcanoEngineConfig.apiUrl}/images/generations`, {
